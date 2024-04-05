@@ -21,7 +21,7 @@ class RegistController extends Controller
     public function confirm()
     {
         checkPostRequest();
-        $posts = check($_POST);
+        $posts = sanitize($_POST);
         Session::add("regist", $_POST);
 
         $user = new User();

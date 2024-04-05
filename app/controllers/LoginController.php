@@ -33,7 +33,7 @@ class LoginController extends Controller
         checkPostRequest();
 
         $user = new User();
-        $posts = check($_POST);
+        $posts = sanitize($_POST);
         Session::add('login', $_POST);
 
         $user->validateLogin($posts);

@@ -60,7 +60,7 @@ class Model
     public function save(array $posts)
     {
         if (!$posts) return;
-        $posts = check($posts);
+        $posts = sanitize($posts);
 
         $column = implode(",", array_keys($posts));
         foreach ($posts as $post) {
@@ -81,7 +81,7 @@ class Model
 
     public function bind(array $data)
     {
-        $data = check($data);
+        $data = sanitize($data);
         $this->value = $data;
     }
 

@@ -26,7 +26,7 @@ class TweetController extends Controller
 
     public function add()
     {
-        $posts = check($_POST);
+        $posts = sanitize($_POST);
         $tweet = new Tweet();
         $posts['user_id'] = $this->auth_user['id'];
         $tweet->validate($posts);
@@ -39,7 +39,7 @@ class TweetController extends Controller
     public function delete()
     {
         $auth_user = Session::get('auth_user');
-        $posts = check($_POST);
+        $posts = sanitize($_POST);
         $tweet = new Tweet();
         $tweet->find($posts['tweet_id']);
         if ($tweet->value && $tweet->value['user_id'] == $auth_user['id']) {

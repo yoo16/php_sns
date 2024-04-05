@@ -8,7 +8,7 @@ function checkPostRequest()
     }
 }
 
-function check(array $posts)
+function sanitize(array $posts)
 {
     if (empty($posts)) return;
     foreach ($posts as $key => $value) {
