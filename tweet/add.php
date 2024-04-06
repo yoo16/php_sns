@@ -1,5 +1,5 @@
 <?php
-require_once "../env.php";
+require_once "../app.php";
 
 $controller = new TweetController();
 $controller->add();

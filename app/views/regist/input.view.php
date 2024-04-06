@@ -1,4 +1,4 @@
-<main id="register" class="flex justify-center">
+<main id="regist" class="flex justify-center">
     <div class="w-1/2 mt-3 p-5">
         <h2 class="text-2xl mb-3 font-normal text-center">Sign Up</h2>
         <form action="regist/confirm.php" method="post">

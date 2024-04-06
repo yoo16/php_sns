@@ -14,7 +14,7 @@ CREATE TABLE tweets (
   user_id bigint NOT NULL,
   image_path text DEFAULT NULL,
   created_at timestamp NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT current_timestamp()
+  updated_at timestamp NULL DEFAULT NULL
 );
 
 CREATE TABLE likes (
@@ -22,7 +22,7 @@ CREATE TABLE likes (
   user_id bigint NOT NULL,
   tweet_id bigint NOT NULL,
   created_at timestamp NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT current_timestamp()
+  updated_at timestamp NULL DEFAULT NULL
 );
 
 ALTER TABLE likes ADD CONSTRAINT likes_user_id_fk FOREIGN KEY (user_id) 

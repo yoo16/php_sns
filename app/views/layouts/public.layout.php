@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 
 <?php include VIEW_DIR . 'components/head.php' ?>
 
