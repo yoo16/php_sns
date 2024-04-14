@@ -30,7 +30,7 @@ class TweetController extends Controller
         $posts['user_id'] = $this->auth_user['id'];
         $tweet->validate($posts);
         if (!$tweet->errors) {
-            $tweet->save($posts);
+            $tweet->insert($posts);
         }
         Route::redirect('./');
     }
@@ -55,7 +55,7 @@ class TweetController extends Controller
         if ($value = $like->has($_POST['tweet_id'], $_POST['user_id'])) {
             $like->delete($value['id']);
         } else {
-            $like->save($_POST);
+            $like->insert($_POST);
         }
         Route::redirect('./');
     }

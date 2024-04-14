@@ -6,6 +6,7 @@ erDiagram
        varchar(255) email UK
        varchar(255) password
        varchar(255) name
+       text profile
        datetime created_at
        datetime updated_at
    }

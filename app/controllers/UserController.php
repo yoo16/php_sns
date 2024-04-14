@@ -27,6 +27,18 @@ class UserController extends Controller
         View::render('user/edit', $data);
     }
 
+    public function update()
+    {
+        checkPostRequest();
+        $user = new User();
+        $user->update((int) $this->auth_user['id'], $_POST);
+
+        $user->find($this->auth_user['id']);
+        Session::add('auth_user', $user->value);
+        Route::redirect('./');
+    }
+
+
     public function logout()
     {
         Session::forget('auth_user');

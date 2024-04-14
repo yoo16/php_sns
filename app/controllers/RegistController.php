@@ -44,9 +44,8 @@ class RegistController extends Controller
         if ($posts = Session::get("regist")) {
             $posts['password'] = password_hash($posts['password'], PASSWORD_DEFAULT);
             $user = new User();
-            $user->save($posts);
+            $user->insert($posts);
         }
-
         Route::redirect('result.php');
     }
 

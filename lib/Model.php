@@ -57,7 +57,7 @@ class Model
         return $this->value;
     }
 
-    public function save(array $posts)
+    public function insert(array $posts)
     {
         if (!$posts) return;
         $posts = sanitize($posts);
@@ -68,6 +68,20 @@ class Model
         }
         $value = implode(",", $values);
         $sql = "INSERT INTO {$this->table} ({$column}) VALUES ({$value});";
+        return $this->pdo->query($sql);
+    }
+
+    public function update(int $id, array $posts)
+    {
+        if (!$posts) return;
+        $posts = sanitize($posts);
+
+        $column = implode(",", array_keys($posts));
+        foreach ($posts as $column => $post) {
+            $values[] = "{$column} = \"{$post}\"";
+        }
+        $value = implode(",", $values);
+        $sql = "UPDATE {$this->table} SET {$value} WHERE id = {$id};";
         return $this->pdo->query($sql);
     }
 

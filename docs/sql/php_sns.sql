@@ -4,6 +4,7 @@ CREATE TABLE users (
     email varchar(255) UNIQUE NOT NULL,
     password varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
+    profile text DEFAULT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime NULL DEFAULT NULL
 );
