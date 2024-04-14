@@ -38,6 +38,28 @@ class UserController extends Controller
         Route::redirect('./');
     }
 
+    public function uploadProfileImage()
+    {
+        $user_id = $this->auth_user['id'];
+
+        // アップロードフォルダのパス
+        $upload_dir = IMAGE_DIR . "users/profile/";
+
+        // ディレクトリ作成
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        $file = $_FILES['image'];
+
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            // ファイル移動
+            $tmp_name = $file['tmp_name'];
+            $destination = "{$upload_dir}{$user_id}.png";
+            move_uploaded_file($tmp_name, $destination);
+        }
+        Route::redirect('./');
+    }
 
     public function logout()
     {

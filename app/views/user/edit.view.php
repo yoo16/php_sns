@@ -1,16 +1,29 @@
 <div class="mx-auto bg-white">
-    <div class="relative mb-1">
-        <img src="images/banner.jpg" alt="Banner" class="w-full h-52 object-cover">
-        <img src="images/me.png" alt="Profile Picture" class="absolute bottom-0 left-20 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white">
-
-        <div class="flex justify-end my-4">
-            <a href="user/edit.php" class="border border-gray-300 text-gray-500 py-2 px-4 rounded-lg">Edit Profile</a>
-        </div>
-    </div>
-
     <div class="w-full mt-3 p-5">
-        <h2 class="text-2xl mb-3 font-normal text-center">Edit Profile</h2>
+        <h2 class="text-2xl mb-3 font-normal font-bold text-center">Edit Profile</h2>
+
+        <div class="flex justify-center items-center">
+            <div class="bg-white p-8 rounded-lg">
+                <h3 class="text-xl mb-4">Profile Image</h3>
+                <form action="user/upload_profile_image.php" method="post" enctype="multipart/form-data" class="flex flex-col items-center">
+                    <label for="image-input" class="cursor-pointer">
+                        <img id="preview-image" src="<?= User::profileImageURLById($auth_user['id']) ?>" alt="Profile Picture" class="w-36 h-36 object-cover rounded-full mb-4">
+                    </label>
+                    <input onchange="selectProfileImage(this)" type="file" id="image-input" name="image" class="hidden" accept="image/*" required>
+                    <button id="upload-button" class="w-full
+                        mb-2 py-2 px-4 bg-sky-500 
+                        hover:bg-sky-700 
+                        text-white 
+                        rounded-lg
+                        hidden">
+                        Upload
+                    </button>
+                </form>
+            </div>
+        </div>
+
         <form action="user/update.php" method="post">
+            <h3 class="text-xl mb-4">User Profile</h3>
             <div class="relative mb-4">
                 <input class="block
                         px-2.5 pb-2.5 pt-6 mb-3

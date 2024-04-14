@@ -10,9 +10,9 @@
         <?php include VIEW_DIR . 'components/like_form.php' ?>
     </div>
 
-    <?php if ($auth_user['id'] == $tweet['user_id']) : ?>
-        <div class="mr-5">
+    <div class="mr-5">
+        <?php if ($auth_user['id'] == $tweet['user_id']) : ?>
             <?php include VIEW_DIR . 'components/delete_form.php' ?>
-        </div>
-    <?php endif ?>
+        <?php endif ?>
+    </div>
 </nav>

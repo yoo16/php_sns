@@ -30,6 +30,15 @@ function autoResize(textarea) {
     textarea.style.height = textarea.scrollHeight + 'px';
 }
 
+function selectProfileImage(event) {
+    const previewImage = document.getElementById('preview-image');
+
+    const file = event.files[0];
+    previewImage.src = URL.createObjectURL(file);
+    document.getElementById('upload-button').classList.remove('hidden');
+}
+
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(

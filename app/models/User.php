@@ -29,4 +29,14 @@ class User extends Model
         }
     }
 
+    public static function profileImageURLById($id)
+    {
+        $url = "images/me.png";
+        $local_path = IMAGE_DIR."users/profile/{$id}.png";
+        if (file_exists($local_path)) {
+            $url = "images/users/profile/{$id}.png";
+        }
+        return $url;
+    }
+
 }

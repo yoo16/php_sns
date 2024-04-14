@@ -1,7 +1,7 @@
 <div class="mx-auto bg-white">
     <div class="relative mb-1">
         <img src="images/banner.jpg" alt="Banner" class="w-full h-52 object-cover">
-        <img src="images/me.png" alt="Profile Picture" class="absolute bottom-0 left-20 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white">
+        <img src="<?= User::profileImageURLById($auth_user['id']) ?>" alt="Profile Picture" class="absolute bottom-0 left-20 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white">
 
         <div class="flex justify-end my-4">
             <a href="user/edit.php" class="border border-gray-300 text-gray-800 py-2 px-4 rounded-lg">Edit Profile</a>
