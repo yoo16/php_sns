@@ -10,7 +10,7 @@
             <?php include(VIEW_DIR . 'components/tweet_user.php') ?>
         </header>
 
-        <main class="w-3/5 pt-3">
+        <main class="w-3/5">
             <?php include $view_path ?>
         </main>
     </div>
