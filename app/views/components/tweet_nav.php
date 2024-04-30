@@ -11,8 +11,6 @@
     </div>
 
     <div class="mr-5">
-        <?php if ($auth_user['id'] == $tweet['user_id']) : ?>
-            <?php include VIEW_DIR . 'components/delete_form.php' ?>
-        <?php endif ?>
+        <?php include VIEW_DIR . 'components/delete_form.php' ?>
     </div>
 </nav>

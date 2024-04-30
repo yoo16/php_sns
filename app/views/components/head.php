@@ -10,4 +10,5 @@
     <script src="<?= BASE_URL ?>javascripts/default.js"></script>
 
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/default.css">
 </head>

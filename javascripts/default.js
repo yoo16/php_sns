@@ -1,6 +1,6 @@
 const API_KEY = 'xxxx';
 
-function checkRegisterInputs() {
+checkRegisterInputs = () => {
     const accountNameInput = document.getElementById('account_name');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
@@ -15,7 +15,11 @@ function checkRegisterInputs() {
     submitButton.disabled = (accountName == '' || email == '' || password == '' || name == '');
 }
 
-function checkLoginInputs() {
+login = () => {
+    document.getElementById('modal-loading').classList.remove('hidden');
+}
+
+checkLoginInputs = () => {
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const submitButton = document.getElementById('submit_button');
@@ -25,12 +29,12 @@ function checkLoginInputs() {
     submitButton.disabled = (email == '' || password == '');
 }
 
-function autoResize(textarea) {
+autoResize = (textarea) => {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
 }
 
-function selectProfileImage(event) {
+selectProfileImage = (event) => {
     const previewImage = document.getElementById('preview-image');
 
     const file = event.files[0];
@@ -38,8 +42,7 @@ function selectProfileImage(event) {
     document.getElementById('upload-button').classList.remove('hidden');
 }
 
-
-function getLocation() {
+getLocation = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {

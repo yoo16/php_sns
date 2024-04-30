@@ -1,7 +1,7 @@
 <main id="id" class="flex justify-center">
     <div class="w-1/2 mt-3 p-5">
         <h2 class="text-2xl mb-3 font-normal text-center">Sign in</h2>
-        <form action="login/auth.php" method="post">
+        <form action="login/auth.php" method="post" onsubmit="login()">
             <div class="relative mb-4">
                 <input class="block
                         px-2.5 pb-2.5 pt-6 mb-4
