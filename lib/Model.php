@@ -27,33 +27,36 @@ class Model
         }
     }
 
-    public function fetchBySQL(string $sql)
+    public function fetchBySQL(string $sql, array $params = null)
     {
-        $value = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-        $this->value = $value;
-        return $value;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $this->value = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->value;
     }
 
-    public function fetchAllBySQL(string $sql)
+    public function fetchAllBySQL(string $sql, array $params = null)
     {
-        $value = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        $this->value = $value;
-        return $value;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $this->values = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->values;
     }
 
     public function get(int $limit = 20)
     {
-        $sql = "SELECT * FROM {$this->table} LIMIT {$limit};";
-        $values = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        $this->values = $values;
-        return $values;
+        $sql = "SELECT * FROM {$this->table} LIMIT :limit;";
+
+        $this->values = $this->fetchAllBySQL($sql, ['limit' => $limit]);
+        return $this->values;
     }
 
     public function find(int $id)
     {
         if (empty($id)) return;
-        $sql = "SELECT * FROM {$this->table} WHERE id = {$id};";
-        $this->value = $this->fetchBySQL($sql);
+        $sql = "SELECT * FROM {$this->table} WHERE id = :id;";
+
+        $this->value = $this->fetchBySQL($sql, ['id' => $id]);
         return $this->value;
     }
 
@@ -62,13 +65,16 @@ class Model
         if (!$posts) return;
         $posts = sanitize($posts);
 
-        $column = implode(",", array_keys($posts));
-        foreach ($posts as $post) {
-            $values[] = "\"{$post}\"";
+        foreach ($posts as $column => $post) {
+            $columns[] = $column;
+            $values[] = ":{$column}";
         }
+        $column = implode(",", $columns);
         $value = implode(",", $values);
+
         $sql = "INSERT INTO {$this->table} ({$column}) VALUES ({$value});";
-        return $this->pdo->query($sql);
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($posts);
     }
 
     public function update(int $id, array $posts)
@@ -76,21 +82,22 @@ class Model
         if (!$posts) return;
         $posts = sanitize($posts);
 
-        $column = implode(",", array_keys($posts));
         foreach ($posts as $column => $post) {
-            $values[] = "{$column} = \"{$post}\"";
+            $values[] = "{$column} = :{$column}";
         }
         $value = implode(",", $values);
+
         $sql = "UPDATE {$this->table} SET {$value} WHERE id = {$id};";
-        return $this->pdo->query($sql);
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($posts);
     }
 
     public function delete($id)
     {
-        $data['id'] = $id;
+        $params['id'] = $id;
         $sql = "DELETE FROM {$this->table} WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute($data);
+        return $stmt->execute($params);
     }
 
     public function bind(array $data)

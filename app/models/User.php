@@ -29,14 +29,21 @@ class User extends Model
         }
     }
 
-    public static function profileImageURLById($id)
+    public static function profileImagePath($id)
     {
-        $url = "images/me.png";
-        $local_path = IMAGE_DIR."users/profile/{$id}.png";
-        if (file_exists($local_path)) {
-            $url = "images/users/profile/{$id}.png";
-        }
-        return $url;
+        return PROFILE_IMAGE_DIR . "{$id}";
     }
 
+    public static function hasProfileImagePath($id)
+    {
+        $path = self::profileImagePath($id);
+        return file_exists($path);
+    }
+
+    public static function profileImageURLById($id)
+    {
+        $defaultUrl = "images/me.png";
+        $url = "images/users/profile/{$id}?" . time();
+        return self::hasProfileImagePath($id) ? $url : $defaultUrl;
+    }
 }

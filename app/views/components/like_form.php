@@ -4,7 +4,7 @@
         <input type="hidden" name="user_id" value="<?= $auth_user['id'] ?>">
         <input type="hidden" name="tweet_id" value="<?= $tweet['id'] ?>">
 
-        <?php if (in_array($tweet['id'], $user_likes)) : ?>
+        <?php if ($user_likes && in_array($tweet['id'], $user_likes)) : ?>
             <button class="flex btn btn-sm">
                 <img src="images/svg/heart_active.svg" class="h-4 w-4">
                 <span class="ml-3 text-xs text-pink-700"><?= @$like_counts[$tweet['id']] ?></span>

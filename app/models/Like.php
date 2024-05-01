@@ -35,9 +35,9 @@ class Like extends Model
 
     function valuesByUser($user)
     {
-        $sql = "SELECT * FROM likes 
-                WHERE user_id = {$user['id']};";
-        $values = $this->fetchAllBySQL($sql);
+        $sql = "SELECT * FROM likes WHERE user_id = :user_id;";
+        $params = ['user_id' => $user['id']];
+        $values = $this->fetchAllBySQL($sql, $params);
         $values = array_column($values, 'tweet_id');
         return $values;
     }

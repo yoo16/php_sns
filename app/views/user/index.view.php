@@ -21,4 +21,13 @@
             <?= nl2br($auth_user['profile']) ?>
         </p>
     </div>
+
+    <? if ($tweets) : ?>
+        <div class="mt-5">
+            <!-- Tweetの繰り返し表示 -->
+            <?php foreach ($tweets as $tweet) : ?>
+                <?php include(VIEW_DIR . 'components/tweet.php') ?>
+            <?php endforeach ?>
+        </div>
+    <? endif ?>
 </div>

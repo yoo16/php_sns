@@ -13,7 +13,12 @@ class UserController extends Controller
 
     public function index()
     {
+        $tweet = new Tweet();
+        $like = new Like();
         $data = [
+            'tweets' => $tweet->getByUserID($this->auth_user['id']),
+            'like_counts' => $like->counts(),
+            'user_likes' => $like->valuesByUser($this->auth_user),
             'auth_user' => $this->auth_user,
         ];
         View::render('user/index', $data);
@@ -40,22 +45,10 @@ class UserController extends Controller
 
     public function uploadProfileImage()
     {
-        $user_id = $this->auth_user['id'];
-
-        // アップロードフォルダのパス
-        $upload_dir = IMAGE_DIR . "users/profile/";
-
-        // ディレクトリ作成
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
-        }
-
         $file = $_FILES['image'];
-
         if ($file['error'] === UPLOAD_ERR_OK) {
-            // ファイル移動
             $tmp_name = $file['tmp_name'];
-            $destination = "{$upload_dir}{$user_id}.png";
+            $destination = User::profileImagePath($this->auth_user['id']);
             move_uploaded_file($tmp_name, $destination);
         }
         Route::redirect('./');
