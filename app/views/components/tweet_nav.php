@@ -11,6 +11,6 @@
     </div>
 
     <div class="mr-5">
-        <?php include VIEW_DIR . 'components/delete_form.php' ?>
+        
     </div>
 </nav>

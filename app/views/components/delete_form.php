@@ -1,5 +1,5 @@
 <?php if ($auth_user['id'] == $tweet['user_id']) : ?>
-    <div class="flex">
+    <div class="mt-1 ml-3 flex">
         <form action="tweet/delete.php" method="post">
             <input type="hidden" name="tweet_id" value="<?= $tweet['id'] ?>">
             <button onclick="return confirm('削除しますか？')">

@@ -5,10 +5,11 @@
     </div>
     <!-- tweet body -->
     <div class="w-full ml-5">
-        <div class="tweet-user">
+        <div class="flex">
             <span class="font-bold text-gray-800"><?= $tweet['name'] ?></span>
-            <span class="text-gray-500">@<?= $tweet['account_name'] ?></span>
+            <span class="ml-2 text-gray-500">@<?= $tweet['account_name'] ?></span>
             <span class="ml-2 text-gray-500">&nbsp;<?= date('Y/m/d', strtotime($tweet['created_at'])) ?></span>
+            <?php include VIEW_DIR . 'components/delete_form.php' ?>
         </div>
 
         <div class="mt-1 mb-5">
