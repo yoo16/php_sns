@@ -28,21 +28,15 @@ class User
     public function find(int $id)
     {
         try {
-            // DB接続
             $pdo = Database::getInstance();
-            // SQL作成
             $sql = "SELECT * FROM users WHERE id = :id";
-            // SQL事前準備
             $stmt = $pdo->prepare($sql);
-            // プレースホルダー（:id）の値をバインドしてSQL実行
             $stmt->execute(['id' => $id]);
-            // ユーザデータ取得
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            // ユーザデータを連想配列として返す
             return $user;
         } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return null;
+            echo $e->getMessage();
+            exit;
         }
     }
 
@@ -57,21 +51,17 @@ class User
         try {
             // パスワードのハッシュ化
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-            // DB接続
             $pdo = Database::getInstance();
-            // INSERT用SQL（テーブル名やカラム名は適宜変更）
             $sql = "INSERT INTO users (account_name, email, display_name, password) 
                     VALUES (:account_name, :email, :display_name, :password)";
-            // プリペアードステートメントの生成
             $stmt = $pdo->prepare($sql);
-            // SQL実行（データ配列のキーとプレースホルダーは一致させる）
             $result = $stmt->execute($data);
             if ($result) {
-                // 登録成功時は新規登録ユーザのIDを取得して返す
                 return $pdo->lastInsertId();
             }
         } catch (PDOException $e) {
-            error_log($e->getMessage());
+            echo $e->getMessage();
+            exit;
         }
         return;
     }
@@ -90,8 +80,7 @@ class User
 
             $sql = "UPDATE users
                     SET display_name = :display_name,
-                        profile = :profile,
-                        profile_image = :profile_image
+                        profile = :profile
                     WHERE id = :id;";
 
             $stmt = $pdo->prepare($sql);
@@ -100,11 +89,11 @@ class User
             $posts['id'] = $id;
             $posts['display_name'] = $data['display_name'];
             $posts['profile'] = $data['profile'];
-            $posts['profile_image'] = $data['profile_image'];
 
             return $stmt->execute($posts);
         } catch (PDOException $e) {
-            error_log($e->getMessage());
+            echo $e->getMessage();
+            exit;
         }
     }
 
@@ -122,15 +111,10 @@ class User
         // SQL作成: アカウント名でユーザを検索
         $sql = "SELECT * FROM users WHERE account_name = :account_name";
         try {
-            // プリペアードステートメントでSQLを実行
             $stmt = $pdo->prepare($sql);
-            // プレースホルダー（:account_name）の値をバインドしてSQL実行
             $stmt->execute([':account_name' => $account_name]);
-            // ユーザデータ取得
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            // TODO: ユーザが存在し、password_verify() でパスワードの検証を実施
             if ($user && password_verify($password, $user['password'])) {
-                // パスワードが一致した場合、ユーザデータを返す
                 return $user;
             }
         } catch (PDOException $e) {
@@ -168,12 +152,12 @@ class User
      * @param int $user_id ユーザID
      * @return string プロフィール画像の保存先パス
      */
-    public static function profileImage($user)
+    public static function profileImage($profile_image)
     {
         // プロフィール画像のパスを取得
-        $localPath = BASE_DIR . '/' . $user['profile_image'];
-        if ($user['id'] && file_exists($localPath)) {
-            return $user['profile_image'] . "?" . time();
+        $localPath = BASE_DIR . '/' . $profile_image;
+        if ($profile_image && file_exists($localPath)) {
+            return $profile_image . "?" . time();
         }
         return "images/me.png";
     }

@@ -16,7 +16,6 @@ document.addEventListener('click', () => {
     }
 });
 
-
 function inputTestRegistUser() {
     document.getElementById('account_name').value = 'user1';
     document.getElementById('display_name').value = 'Test User1';

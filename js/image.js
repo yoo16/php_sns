@@ -1,6 +1,5 @@
 selectProfileImage = (event) => {
     const previewImage = document.getElementById('preview-image');
-
     const file = event.files[0];
     previewImage.src = URL.createObjectURL(file);
     document.getElementById('upload-button').classList.remove('hidden');

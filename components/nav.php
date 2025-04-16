@@ -1,3 +1,7 @@
+<?php
+
+use App\Models\User;
+?>
 <nav id="side-menu" class="p-3">
     <ul>
         <li class="py-1">
@@ -14,7 +18,7 @@
         </li>
         <li class="py-1">
             <div id="user-menu" class="inline-flex items-center">
-                <img src="images/me.png" class="rounded-full w-8 h-8">
+                <img src="<?= User::profileImage($auth_user['profile_image']) ?>" class="rounded-full w-10 h-10">
             </div>
             <!-- ポップアップ（初期状態は非表示） -->
             <div id="user-popup" class="hidden absolute left-0 m-2 w-64 bg-white border border-gray-300 rounded shadow-lg z-10">

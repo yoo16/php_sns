@@ -40,6 +40,7 @@ class Tweet
                     tweets.updated_at,
                     users.account_name, 
                     users.display_name,
+                    users.profile_image,
                     COUNT(likes.id) AS like_count 
                 FROM tweets 
                 JOIN users ON tweets.user_id = users.id
@@ -52,7 +53,8 @@ class Tweet
                     tweets.created_at,
                     tweets.updated_at,
                     users.account_name, 
-                    users.display_name
+                    users.display_name,
+                    users.profile_image
                 ORDER BY tweets.created_at DESC 
                 LIMIT :limit;";
 
@@ -83,6 +85,7 @@ class Tweet
                     tweets.updated_at,
                     users.account_name, 
                     users.display_name,
+                    users.profile_image,
                     COUNT(likes.id) AS like_count 
                 FROM tweets 
                 JOIN users ON tweets.user_id = users.id
@@ -96,7 +99,8 @@ class Tweet
                     tweets.created_at,
                     tweets.updated_at,
                     users.account_name, 
-                    users.display_name
+                    users.display_name,
+                    users.profile_image
                 ORDER BY tweets.created_at DESC 
                 LIMIT :limit;";
 
@@ -129,6 +133,7 @@ class Tweet
                     tweets.updated_at,
                     users.account_name,
                     users.display_name,
+                    users.profile_image,
                     COUNT(likes.id) AS like_count
                 FROM tweets
                 LEFT JOIN likes ON tweets.id = likes.tweet_id
@@ -142,7 +147,8 @@ class Tweet
                     tweets.created_at,
                     tweets.updated_at,
                     users.account_name,
-                    users.display_name
+                    users.display_name,
+                    users.profile_image
                 ORDER BY tweets.created_at DESC
                 LIMIT :limit;";
 
@@ -191,7 +197,10 @@ class Tweet
     {
         try {
             $pdo = Database::getInstance();
-            $sql = "SELECT tweets.*, users.display_name, users.account_name 
+            $sql = "SELECT tweets.*, 
+                            users.display_name, 
+                            users.account_name,
+                            users.profile_image
                     FROM tweets 
                     JOIN users ON tweets.user_id = users.id 
                     WHERE tweets.id = :id";

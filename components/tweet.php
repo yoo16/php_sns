@@ -1,9 +1,12 @@
+<?php 
+use App\Models\User;
+?>
 <div class="p-4 border-b border-gray-200 hover:bg-gray-50 transition">
     <div class="flex">
         <!-- プロフィール画像 -->
         <div class="flex-shrink-0">
-            <a href="home/user_tweets.php?id=<?= $value['user_id'] ?>" class="block no-underline text-inherit">
-                <img src="images/me.png" alt="User Icon" class="rounded-full w-12 h-12">
+            <a href="user/?id=<?= $value['user_id'] ?>" class="block no-underline text-inherit">
+                <img src="<?= User::profileImage($value['profile_image']) ?>" class="rounded-full w-12 h-12">
             </a>
         </div>
 
@@ -11,7 +14,7 @@
         <div class="ml-4 flex-1">
             <!-- ユーザ情報 -->
             <div class="flex items-center">
-                <a href="home/user_tweets.php?id=<?= $value['user_id'] ?>" class="block no-underline text-inherit">
+                <a href="user/?id=<?= $value['user_id'] ?>" class="block no-underline text-inherit">
                     <span class="font-bold text-gray-900"><?= $value['display_name'] ?></span>
                 </a>
                 <span class="ml-2 text-gray-500">@<?= $value['account_name'] ?></span>

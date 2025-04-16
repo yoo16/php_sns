@@ -42,11 +42,10 @@ if (!$value) {
             <div class="p-5 border-b border-gray-200 pb-3">
                 <a href="home/" class="font-bold">&larr; <span class="ml-4">ポスト</span></a>
             </div>
-            <? if ($value) : ?>
-                <div class="row">
-                    <?php include COMPONENT_DIR . 'tweet.php' ?>
-                </div>
-            <? endif ?>
+
+            <div class="row">
+                <?php include COMPONENT_DIR . 'tweet.php' ?>
+            </div>
         </main>
     </div>
 </body>
