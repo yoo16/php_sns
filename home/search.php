@@ -1,16 +1,19 @@
 <?php
+// 共通ファイル app.php を読み込み
+
 use App\Models\AuthUser;
 use App\Models\Tweet;
 
-// 共通ファイル app.php を読み込み
 require_once('../app.php');
 
 // TODO: ユーザセッションの確認し、ログインしていない場合はログイン画面にリダイレクト
 $auth_user = AuthUser::checkLogin();
 
-// TODO: Tweet投稿一覧を取得
+// 検索キーワードの取得
+$keyword = h($_GET['keyword'] ?? "");
+
 $tweet = new Tweet();
-$tweets = $tweet->get();
+$tweets = $tweet->search($keyword);
 ?>
 
 <!DOCTYPE html>

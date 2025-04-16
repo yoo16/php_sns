@@ -1,12 +1,18 @@
 <nav id="side-menu" class="p-3">
     <ul>
-        <li>
-            <a href="" class="inline-flex items-center">
-                <img src="svg/home.svg" class="w-10 mr-2">
+        <li class="py-1">
+            <a href="home/" class="inline-flex items-center">
+                <img src="svg/home.svg" class="w-8 mr-2">
                 <span class="hidden md:inline">ホーム</span>
             </a>
         </li>
-        <li>
+        <li class="py-1">
+            <a href="home/grallary.php" class="inline-flex items-center">
+                <img src="svg/camera.svg" class="w-8 mr-2">
+                <span class="hidden md:inline">メディア</span>
+            </a>
+        </li>
+        <li class="py-1">
             <div id="user-menu" class="inline-flex items-center">
                 <img src="images/me.png" class="rounded-full w-8 h-8">
             </div>

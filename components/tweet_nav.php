@@ -6,7 +6,7 @@
                 <span class="text-gray-600 text-xs">0</span>
             </div>
         </li>
-        <li class="flex">
+        <li>
             <form action="home/like.php" method="post" class="inline-flex items-center space-x-2">
                 <div onclick="updateLike(this)" class="inline-flex items-center space-x-2">
                     <img src="svg/heart.svg" class="w-4" alt="削除">
@@ -22,7 +22,7 @@
                 <span class="text-gray-600 text-xs">0</span>
             </div>
         </li>
-        <?php if ($auth_user['id'] == $value['id']): ?>
+        <?php if ($auth_user['id'] == $value['user_id']): ?>
             <li>
                 <form action="home/delete.php" method="post" class="inline-flex items-center space-x-2">
                     <div onclick="deleteTweet(this)" class="inline-flex items-center space-x-2">

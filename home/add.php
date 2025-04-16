@@ -2,6 +2,7 @@
 // 共通ファイル app.php を読み込み
 
 use App\Models\Tweet;
+use App\Models\AuthUser;
 
 require_once('../app.php');
 
@@ -11,12 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // TODO: ログインユーザチェック
-$auth_user = $_SESSION[APP_KEY]['auth_user'] ?? null;
-// TODO: ユーザがいなかったらログイン画面にリダイレクト
-if (empty($auth_user['id'])) {
-    header('Location: ../login/');
-    exit;
-}
+$auth_user = AuthUser::checkLogin();
 
 // TODO: POSTデータを取得
 $posts = sanitize($_POST);

@@ -28,9 +28,15 @@ $tweets = $tweet->getByUserID($auth_user['id']);
         </header>
 
         <main class="w-4/5">
-            <?php include COMPONENT_DIR . 'user_dashboard.php' ?>
+            <div class="w-full mt-3 p-5">
+                <h2 class="text-2xl mb-3 font-normal font-bold text-center">プロフィールを編集</h2>
+
+                <!-- ユーザ画像 -->
+                <?php include COMPONENT_DIR . 'user_upload_image.php' ?>
+
+                <!-- ユーザ編集フォーム -->
+                <?php include COMPONENT_DIR . 'user_form.php' ?>
+            </div>
         </main>
     </div>
-</body>
-
-</html>
+    </div>

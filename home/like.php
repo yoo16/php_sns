@@ -20,9 +20,11 @@ $tweet_id = $_POST['tweet_id'] ?? null;
 $user_id = $_POST['user_id'] ?? null;
 
 if ($tweet_id && $user_id) {
+    // tweet_id と user_id があれば、いいねの更新
     $like = new Like();
     $like->update($tweet_id, $user_id);
 }
 
-// ホームにリダイレクト
-header('Location: ./');
+// 前の画面にリダイレクト
+$referer = $_SERVER['HTTP_REFERER'] ?? '/';
+header('Location: ' . htmlspecialchars($referer, ENT_QUOTES, 'UTF-8'));

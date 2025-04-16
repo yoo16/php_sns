@@ -1,28 +1,31 @@
 <?php
 class File
 {
-    public static function isExistsLocal($path)
+    public static function localDir($path)
     {
         // ローカルパスを指定
-        $localPath = BASE_DIR . '/' . $path;
-        // ファイルが存在するか確認
-        return file_exists($localPath);
+        $dir = BASE_DIR . '/' . $path;
+        return $dir;
     }
 
-    public static function getUploadDir($uploadDir)
+    public static function has($path)
     {
-        // アップロード先のディレクトリを指定
-        $localDir = BASE_DIR . '/' . $uploadDir;
+        $localDir = self::localDir($path);
+        return file_exists($localDir);
+    }
+
+    public static function checkUploadDir($uploadDir)
+    {
         // ディレクトリが存在しない場合は作成
-        if (!is_dir($localDir)) {
-            mkdir($localDir, 0777, true);
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
         // ディレクトリのパーミッションを設定
-        chmod($localDir, 0777);
-        return $localDir;
+        chmod($uploadDir, 0777);
+        return $uploadDir;
     }
 
-    public static function upload($uploadDir, $key = 'file')
+    public static function upload($uploadDir, $fileName = '', $key = 'file')
     {
         // 画像がアップロードされているか確認
         if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
@@ -30,13 +33,23 @@ class File
             $tmpPath = $_FILES[$key]['tmp_name'];
             // 画像の拡張子を取得
             $extension = pathinfo($_FILES[$key]['name'], PATHINFO_EXTENSION);
-            // 画像ファイル名
-            $imageFileName = uniqid() . '.' . $extension;
+            // 画像ファイル名を指定
+            if ($fileName) {
+                $fileName .= ".{$extension}";
+            } else {
+                $fileName = uniqid() . '.' . $extension;
+            }
             // アップロード先のディレクトリを指定
-            $destPath = self::getUploadDir($uploadDir) . $imageFileName;
+            $localDir = self::localDir($uploadDir);
+            // アップロード先のディレクトリを確認
+            self::checkUploadDir($localDir);
+            // アップロード先のパスを指定
+            $uploadPath = $localDir . $fileName;
             // ファイルを指定したディレクトリに移動
-            if (move_uploaded_file($tmpPath, $destPath)) {
-                return $uploadDir . $imageFileName;
+            if (move_uploaded_file($tmpPath, $uploadPath)) {
+                // URLパス
+                $imagePath = $uploadDir . $fileName;
+                return $imagePath;
             }
         }
         return null;

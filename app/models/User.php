@@ -5,6 +5,7 @@ namespace App\Models;
 use PDO;
 use PDOException;
 use Database;
+use File;
 
 class User
 {
@@ -76,6 +77,38 @@ class User
     }
 
     /**
+     * ユーザデータを更新する
+     *
+     * @param int $id ユーザID
+     * @param array $data 更新するユーザデータ
+     * @return mixed 更新成功時はユーザデータの連想配列、失敗時は null
+     */
+    public function update($id, $data)
+    {
+        try {
+            $pdo = Database::getInstance();
+
+            $sql = "UPDATE users
+                    SET display_name = :display_name,
+                        profile = :profile,
+                        profile_image = :profile_image
+                    WHERE id = :id;";
+
+            $stmt = $pdo->prepare($sql);
+
+            // 更新データバインド
+            $posts['id'] = $id;
+            $posts['display_name'] = $data['display_name'];
+            $posts['profile'] = $data['profile'];
+            $posts['profile_image'] = $data['profile_image'];
+
+            return $stmt->execute($posts);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+        }
+    }
+
+    /**
      * ユーザ認証
      *
      * @param string $account_name ユーザのアカウント名
@@ -106,14 +139,42 @@ class User
         return;
     }
 
-    public static function icon($id)
+    /**
+     * ユーザのプロフィール画像をアップロードする
+     *
+     * @param int $user_id ユーザID
+     * @return string|null アップロードされた画像のパス、失敗時は null
+     */
+    public function uploadProfileImage($user_id)
     {
-        $iconFilePath = BASE_DIR . "/images/user_icon/{$id}.png";
-        if ($id && file_exists($iconFilePath)) {
-            return "/images/user_icon/{$id}.png";
-        } else {
-            return "/images/me.png";
+        $profile_image = File::upload(PROFILE_BASE, $user_id);
+        try {
+            $pdo = Database::getInstance();
+            $sql = "UPDATE users SET profile_image = :profile_image WHERE id = :id;";
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                'id' => $user_id,
+                'profile_image' => $profile_image
+            ]);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
         }
     }
 
+    /**
+     * プロフィール画像の保存先パスを取得する
+     *
+     * @param int $user_id ユーザID
+     * @return string プロフィール画像の保存先パス
+     */
+    public static function profileImage($user)
+    {
+        // プロフィール画像のパスを取得
+        $localPath = BASE_DIR . '/' . $user['profile_image'];
+        if ($user['id'] && file_exists($localPath)) {
+            return $user['profile_image'] . "?" . time();
+        }
+        return "images/me.png";
+    }
 }

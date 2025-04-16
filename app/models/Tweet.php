@@ -20,14 +20,13 @@ class Tweet
     }
 
     /**
-     * 投稿データを全件取得
+     * 投稿データを取得
      *
      * @return array|null 投稿データの連想配列、もしくは該当する投稿がなければ null
      */
     public function get($limit = 50)
     {
         try {
-            // DB接続
             $pdo = Database::getInstance();
             // 投稿データ取得SQL文
             // users テーブルと結合してユーザ名を取得
@@ -57,13 +56,102 @@ class Tweet
                 ORDER BY tweets.created_at DESC 
                 LIMIT :limit;";
 
-            // SQL事前準備
             $stmt = $pdo->prepare($sql);
-            // SQL実行
             $stmt->execute(['limit' => $limit]);
-            // 投稿データ取得
             $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // 投稿データを連想配列として返す
+            return $tweets;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            echo ($e->getMessage());
+            return null;
+        }
+    }
+
+    public function getByUserID($user_id, $limit = 50)
+    {
+        try {
+            $pdo = Database::getInstance();
+            // 投稿データ取得SQL文
+            // users テーブルと結合してユーザ名を取得
+            // created_at を降順に並べ替え、 LIMITで件数制限
+            $sql = "SELECT 
+                    tweets.id,
+                    tweets.message,
+                    tweets.user_id,
+                    tweets.image_path,
+                    tweets.created_at,
+                    tweets.updated_at,
+                    users.account_name, 
+                    users.display_name,
+                    COUNT(likes.id) AS like_count 
+                FROM tweets 
+                JOIN users ON tweets.user_id = users.id
+                LEFT JOIN likes ON tweets.id = likes.tweet_id
+                WHERE tweets.user_id LIKE :user_id
+                GROUP BY 
+                    tweets.id,
+                    tweets.message,
+                    tweets.user_id,
+                    tweets.image_path,
+                    tweets.created_at,
+                    tweets.updated_at,
+                    users.account_name, 
+                    users.display_name
+                ORDER BY tweets.created_at DESC 
+                LIMIT :limit;";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['user_id' => $user_id, 'limit' => $limit]);
+            $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $tweets;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            echo ($e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * キーワード検索して取得
+     *
+     * @return array|null 投稿データの連想配列、もしくは該当する投稿がなければ null
+     */
+    public function search($keyword, $limit = 50)
+    {
+        try {
+            $pdo = Database::getInstance();
+            $sql = "SELECT
+                    tweets.id,
+                    tweets.message,
+                    tweets.user_id,
+                    tweets.image_path,
+                    tweets.created_at,
+                    tweets.updated_at,
+                    users.account_name,
+                    users.display_name,
+                    COUNT(likes.id) AS like_count
+                FROM tweets
+                LEFT JOIN likes ON tweets.id = likes.tweet_id
+                LEFT JOIN users ON tweets.user_id = users.id
+                WHERE tweets.message LIKE :keyword
+                GROUP BY
+                    tweets.id,
+                    tweets.message,
+                    tweets.user_id,
+                    tweets.image_path,
+                    tweets.created_at,
+                    tweets.updated_at,
+                    users.account_name,
+                    users.display_name
+                ORDER BY tweets.created_at DESC
+                LIMIT :limit;";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'keyword' => "%{$keyword}%",
+                'limit' => $limit
+            ]);
+            $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $tweets;
         } catch (PDOException $e) {
             error_log($e->getMessage());
@@ -75,24 +163,42 @@ class Tweet
     /**
      * 投稿データを取得
      *
-     * @param int $id ユーザID
-     * @return array|null ユーザデータの連想配列、もしくは該当するユーザがなければ null
+     * @param int $id 投稿ID
+     * @return array|null 投稿データの連想配列、もしくは該当する投稿がなければ null
      */
     public function find(int $id)
     {
         try {
-            // DB接続
             $pdo = Database::getInstance();
-            // SQL作成
             $sql = "SELECT * FROM tweets WHERE id = :id";
-            // SQL事前準備
             $stmt = $pdo->prepare($sql);
-            // プレースホルダー（:id）の値をバインドしてSQL実行
             $stmt->execute(['id' => $id]);
-            // ユーザデータ取得
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            // ユーザデータを連想配列として返す
-            return $user;
+            $value = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $value;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 投稿データを取得
+     *
+     * @param int $id 投稿ID
+     * @return array|null 投稿データの連想配列、もしくは該当する投稿がなければ null
+     */
+    public function findWithUser(int $id)
+    {
+        try {
+            $pdo = Database::getInstance();
+            $sql = "SELECT tweets.*, users.display_name, users.account_name 
+                    FROM tweets 
+                    JOIN users ON tweets.user_id = users.id 
+                    WHERE tweets.id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['id' => $id]);
+            $value = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $value;
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return null;
@@ -111,17 +217,14 @@ class Tweet
         try {
             $data['user_id'] = $user_id;
             $data['image_path'] = $this->uploadImage();
-            // DB接続
+
             $pdo = Database::getInstance();
-            // INSERT用SQL（テーブル名やカラム名は適宜変更）
             $sql = "INSERT INTO tweets (user_id, message, image_path) 
                     VALUES (:user_id, :message, :image_path)";
-            // プリペアードステートメントの生成
+
             $stmt = $pdo->prepare($sql);
-            // SQL実行（データ配列のキーとプレースホルダーは一致させる）
             $result = $stmt->execute($data);
             if ($result) {
-                // 登録成功時は新規登録ユーザのIDを取得して返す
                 return $pdo->lastInsertId();
             }
         } catch (PDOException $e) {
@@ -139,13 +242,9 @@ class Tweet
     public function delete($id)
     {
         try {
-            // DB接続
             $pdo = Database::getInstance();
-            // INSERT用SQL（テーブル名やカラム名は適宜変更）
             $sql = "DELETE FROM tweets WHERE id = :id";
-            // プリペアードステートメントの生成
             $stmt = $pdo->prepare($sql);
-            // SQL実行
             return $stmt->execute(['id' => $id]);
         } catch (PDOException $e) {
             error_log($e->getMessage());
@@ -154,13 +253,31 @@ class Tweet
     }
 
     /**
+     * 画像データを取得
+     * 
+     * @return array|null 画像データの連想配列、もしくは該当する画像がなければ null
+     */
+    public function getImages()
+    {
+        $pdo = Database::getInstance();
+        // 画像付きツイートのみ取得（新しい順） SQL
+        $sql = "SELECT id, image_path FROM tweets 
+                WHERE image_path IS NOT NULL AND image_path != '' 
+                ORDER BY created_at DESC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $images;
+    }
+
+    /**
      * アップロード画像を取得
      *
      * @param int $id 投稿ID
      * @return bool 成功した場合は画像ファイルパス、失敗した場合は null
      */
-    public function  uploadImage()
+    public function uploadImage()
     {
-        return File::upload('images/uploads/', 'file');
+        return File::upload(UPLOADS_BASE);
     }
 }
