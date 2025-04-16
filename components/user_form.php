@@ -6,7 +6,6 @@
             value="<?= $auth_user['account_name'] ?>"
             placeholder=" " disabled>
         <label for="email" class="absolute text-sm text-gray-400 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5">アカウント名</label>
-        <p class="text-sm text-red-600"><?= @$errors['email'] ?></p>
     </div>
     <div class="relative mb-4">
         <input type="text" name="account_name"
@@ -15,7 +14,6 @@
             value="<?= $auth_user['email'] ?>"
             placeholder=" " disabled>
         <label for="email" class="absolute text-sm text-gray-400 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5">Email</label>
-        <p class="text-sm text-red-600"><?= @$errors['email'] ?></p>
     </div>
 
     <div class="relative mb-4">
@@ -34,7 +32,6 @@
                         peer-focus:-translate-y-4">
             ディスプレイ名
         </label>
-        <p class="text-sm text-red-600"><?= @$errors['name'] ?></p>
     </div>
 
 

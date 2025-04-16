@@ -27,17 +27,16 @@ $auth_user = [];
 // }
 $user = new User();
 $user_id = $user->insert($posts);
+$auth_user = $user->find($user_id);
 
-if (empty($user_id)) {
-    // TODO: エラーを APP_KEY > errors > public セッションに保存
-    $_SESSION[APP_KEY]['errors']['public'] = 'ユーザ登録に失敗しました。';
-    // TODO: 入力画面(input.php)にリダイレクト
+if (empty($auth_user['id'])) {
+    // ログイン失敗時はログイン入力画面にリダイレクト
     header('Location: input.php');
     exit;
 } else {
-    // $_SESSION[APP_KEY]['auth_user'] = $auth_user;
-    // header('Location: ../home/');
-    // TODO: 登録成功の場合はログイン画面(login/)へリダイレクト
-    header('Location: ../login/');
+    // TODO: 認証成功時はセッションにユーザデータを保存
+    $_SESSION[APP_KEY]['auth_user'] = $auth_user;
+    // TODO: トップページにリダイレクト
+    header('Location: ../home/');
     exit;
 }

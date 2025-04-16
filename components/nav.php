@@ -22,6 +22,9 @@ use App\Models\User;
             </div>
             <!-- ポップアップ（初期状態は非表示） -->
             <div id="user-popup" class="hidden absolute left-0 m-2 w-64 bg-white border border-gray-300 rounded shadow-lg z-10">
+                <a href="user/" class="font-bold block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    プロフィール
+                </a>
                 <a href="user/logout.php" class="font-bold block px-4 py-2 text-gray-700 hover:bg-gray-100">
                     <span class="">@<?= $auth_user['account_name'] ?></span>
                     からログアウト

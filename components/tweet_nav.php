@@ -1,4 +1,4 @@
-<nav class="mt-3 mb-3">
+<nav class="mt-3">
     <ul class="flex justify-start space-x-6">
         <li class="cursor-pointer">
             <div class="replay-count inline-flex items-center space-x-2">

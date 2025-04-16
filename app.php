@@ -15,7 +15,6 @@ const LIB_DIR = __DIR__ . "/lib/";
 // components/ ディレクトリパス
 const COMPONENT_DIR = __DIR__ . "/components/";
 
-
 // upload image base path
 const UPLOADS_BASE = "images/uploads/";
 // profile image base path

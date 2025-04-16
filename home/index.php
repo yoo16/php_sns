@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\AuthUser;
 use App\Models\Tweet;
 
@@ -34,14 +35,7 @@ $tweets = $tweet->get();
                 <?php include COMPONENT_DIR . 'tweet_form.php' ?>
             </div>
 
-            <? if ($tweets) : ?>
-                <?php foreach ($tweets as $value): ?>
-                    <div class="row">
-                        <!-- TODO: components/tweet.php 読み込み -->
-                        <?php include COMPONENT_DIR . 'tweet.php' ?>
-                    </div>
-                <?php endforeach ?>
-            <? endif ?>
+            <?php include COMPONENT_DIR . 'tweet_list.php' ?>
         </main>
     </div>
 

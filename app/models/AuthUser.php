@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 class AuthUser extends User
@@ -13,6 +14,11 @@ class AuthUser extends User
         parent::__construct();
     }
 
+    /**
+     * 認証ユーザ情報を取得
+     *
+     * @return array|null 認証ユーザ情報、もしくは該当するユーザがなければ null
+     */
     public static function getAuthUser()
     {
         // セッションから認証ユーザ情報を取得
@@ -33,26 +39,37 @@ class AuthUser extends User
         return !empty($auth_user);
     }
 
-    public static function checkLogin()
+    /**
+     * ログインチェック
+     *
+     * @param string $path ログイン画面へのパス
+     * @return array|null 認証ユーザ情報、もしくは該当するユーザがなければ null
+     */
+    public static function checkLogin($path = '../login/')
     {
         // セッションから認証ユーザ情報を取得
         $auth_user = self::getAuthUser();
         // 認証ユーザ情報が存在しない場合はログイン画面にリダイレクト
         if (empty($auth_user)) {
-            header('Location: ../login/');
+            header('Location: ' . $path);
             exit;
-        } else {
-            return $auth_user;
         }
+        return $auth_user;
     }
 
-    public static function logout($user)
+    /**
+     * ログアウト処理
+     *
+     * @param string $path ログイン画面へのパス
+     */
+    public static function logout($path = '../login/')
     {
         // セッションから認証ユーザ情報を削除
-        unset($_SESSION[APP_KEY]['auth_user']);
+        if (isset($_SESSION[APP_KEY]['auth_user'])) {
+            unset($_SESSION[APP_KEY]['auth_user']);
+        }
         // ログアウト処理後のリダイレクト先を指定
-        header('Location: ../login/');
+        header('Location: ' . $path);
         exit;
     }
-
 }

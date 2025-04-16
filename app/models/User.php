@@ -41,6 +41,30 @@ class User
     }
 
     /**
+     * ユーザデータを取得
+     *
+     * @param string $account_name ユーザのアカウント名
+     * @return array|null ユーザデータの連想配列、もしくは該当するユーザがなければ null
+     */
+    public function findForExists($posts)
+    {
+        try {
+            $account_name = $posts['account_name'];
+            $email = $posts['email'];
+
+            $pdo = Database::getInstance();
+            $sql = "SELECT * FROM users WHERE account_name = :account_name OR email = :email";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['account_name' => $account_name, 'email' => $email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $user;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * ユーザデータをDBに登録する
      *
      * @param array $data 登録するユーザデータ
