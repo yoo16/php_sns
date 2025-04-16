@@ -1,45 +1,135 @@
 <?php
-class Like extends Model
-{
-    public string $table = "likes";
 
-    function has($tweet_id, $user_id)
+namespace App\Models;
+
+use PDO;
+use PDOException;
+use Database;
+
+class Like
+{
+    /**
+     * コンストラクタ
+     *
+     * インスタンス生成時にプロパティ等の初期化が必要であれば行います。
+     */
+    public function __construct()
     {
-        $sql = "SELECT * FROM {$this->table} 
-                WHERE tweet_id = \"{$tweet_id}\"
-                AND user_id = \"{$user_id}\";";
-        $like = $this->fetchBySQL($sql);
+        // 必要に応じた初期化処理を実装
+    }
+
+    /**
+     * いいねの取得
+     *
+     * @param int $tweet_id ツイートID
+     * @param int $user_id ユーザーID
+     * @return array|null いいね情報、もしくは該当する投稿がなければ null
+     */
+    public function fetch($tweet_id, $user_id)
+    {
+        if (empty($tweet_id) || empty($user_id)) {
+            return null;
+        }
+        // var_dump($tweet_id, $user_id);
+        // DB接続
+        $pdo = Database::getInstance();
+        // tweet_id と user_id を指定してデータ取得するSQL文
+        $sql = "SELECT * FROM likes
+                WHERE tweet_id = :tweet_id
+                AND user_id = :user_id;";
+        // SQL事前準備
+        $stmt = $pdo->prepare($sql);
+        // SQL実行
+        $stmt->execute(['tweet_id' => $tweet_id, 'user_id' => $user_id]);
+        // 結果を取得
+        $like = $stmt->fetch(PDO::FETCH_ASSOC);
         return $like;
     }
 
-    function counts()
+    public function insert($tweet_id, $user_id)
     {
-        $sql = "SELECT tweet_id, count(tweet_id) AS counts 
-                FROM likes
-                GROUP BY tweet_id;";
-        $likes = $this->fetchAllBySQL($sql);
-        $columns = array_column($likes, 'tweet_id');
-        $values = array_column($likes, 'counts');
-        $counts = array_combine($columns, $values);
-        return $counts;
-    }
-    function countByTweetId($tweet_id)
-    {
-        $sql = "SELECT count(tweet_id) AS count 
-                FROM likes
-                WHERE tweet_id = {$tweet_id}
-                GROUP BY tweet_id;";
-        $results = $this->fetchBySQL($sql);
-        return $results['count'];
+        try {
+            // DB接続
+            $pdo = Database::getInstance();
+            // いいねを追加するSQL文
+            $sql = "INSERT INTO likes (tweet_id, user_id) VALUES (:tweet_id, :user_id)";
+            // SQL事前準備
+            $stmt = $pdo->prepare($sql);
+            // SQL実行
+            return $stmt->execute(['tweet_id' => $tweet_id, 'user_id' => $user_id]);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+        }
     }
 
-    function valuesByUser($user)
+    /**
+     * いいねの更新
+     *
+     * @param int $tweet_id ツイートID
+     * @param int $user_id ユーザーID
+     * @return void
+     */
+    public function update($tweet_id, $user_id)
     {
-        $sql = "SELECT * FROM likes WHERE user_id = :user_id;";
-        $params = ['user_id' => $user['id']];
-        $values = $this->fetchAllBySQL($sql, $params);
-        $values = array_column($values, 'tweet_id');
-        return $values;
+        $value = $this->fetch($tweet_id, $user_id);
+        if ($value) {
+            // 既に存在している場合は削除
+            $this->delete($tweet_id, $user_id);
+        } else {
+            // 存在していない場合は追加
+            $this->insert($tweet_id, $user_id);
+        }
     }
 
+    /**
+     * いいねの削除
+     *
+     * @param int $tweet_id ツイートID
+     * @param int $user_id ユーザーID
+     * @return bool 成功した場合は true、失敗した場合は false
+     */
+    public function delete($tweet_id, $user_id)
+    {
+        try {
+            // DB接続
+            $pdo = Database::getInstance();
+            // いいねを削除するSQL文
+            $sql = "DELETE FROM likes WHERE tweet_id = :tweet_id AND user_id = :user_id";
+            // SQL事前準備
+            $stmt = $pdo->prepare($sql);
+            // SQL実行
+            return $stmt->execute(['tweet_id' => $tweet_id, 'user_id' => $user_id]);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+        }
+    }
+
+    /**
+     * 投稿データを全件取得
+     *
+     * @return int|null いいね数、もしくは該当する投稿がなければ null
+     */
+    public function count($tweet_id)
+    {
+        try {
+            // DB接続
+            $pdo = Database::getInstance();
+
+            // tweet_id を指定していいね数を取得するSQL文
+            $sql = "SELECT COUNT(*) AS like_count FROM likes 
+                    WHERE tweet_id = :tweet_id";
+
+            // SQL事前準備
+            $stmt = $pdo->prepare($sql);
+            // SQL実行
+            $stmt->execute(['tweet_id' => $tweet_id]);
+            // いいね数を取得
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            // いいね数を返す
+            return $result['like_count'];
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
 }

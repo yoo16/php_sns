@@ -1,40 +1,26 @@
 <?php
+// 設定ファイルを読み込み
 require_once "env.php";
 
-// パス設定
+// セッション開始
+session_start();
+session_regenerate_id(true);
+
+// アプリケーションのルートディレクトリパス
 const BASE_DIR = __DIR__;
+// app/ ディレクトリパス
 const APP_DIR = __DIR__ . "/app/";
+// lib/ ディレクトリパス
 const LIB_DIR = __DIR__ . "/lib/";
-const DATA_DIR = __DIR__ . "/data/";
-const IMAGE_DIR = __DIR__ . "/images/";
-const MODEL_DIR = APP_DIR . "models/";
-const VIEW_DIR = APP_DIR . "views/";
-const CONTROLLER_DIR = APP_DIR . "controllers/";
-const LAYOUT_DIR = VIEW_DIR . "layouts/";
-const VALIDATE_DIR = APP_DIR . "validate/";
-const PROFILE_IMAGE_DIR = IMAGE_DIR . "users/profile/";
+// components/ ディレクトリパス
+const COMPONENT_DIR = __DIR__ . "/components/";
 
-// ディレクトリ作成
-if (!is_dir(PROFILE_IMAGE_DIR)) {
-    mkdir(PROFILE_IMAGE_DIR, 0755, true);
-}
+// ライブラリ読み込み
+require_once LIB_DIR . 'Database.php';
+require_once LIB_DIR . 'Sanitize.php';
+require_once LIB_DIR . 'File.php';
 
-require_once LIB_DIR . 'functions.php';
-require_once LIB_DIR . 'Model.php';
-require_once LIB_DIR . 'View.php';
-require_once LIB_DIR . 'Session.php';
-require_once LIB_DIR . 'Route.php';
-
-require_once VALIDATE_DIR . 'UserValidate.php';
-require_once VALIDATE_DIR . 'TweetValidate.php';
-
-require_once MODEL_DIR . 'User.php';
-require_once MODEL_DIR . 'Tweet.php';
-require_once MODEL_DIR . 'Like.php';
-
-require_once CONTROLLER_DIR . 'Controller.php';
-require_once CONTROLLER_DIR . 'ApiController.php';
-require_once CONTROLLER_DIR . 'TweetController.php';
-require_once CONTROLLER_DIR . 'UserController.php';
-require_once CONTROLLER_DIR . 'LoginController.php';
-require_once CONTROLLER_DIR . 'RegistController.php';
+// モデルクラスの読み込み
+require_once APP_DIR . 'models/User.php';
+require_once APP_DIR . 'models/Tweet.php';
+require_once APP_DIR . 'models/Like.php';
