@@ -25,4 +25,21 @@ use App\Models\User;
             <?= date('Y.m.d', strtotime($user_data['created_at'])) ?> から利用しています
         </div>
     </div>
+
+    <div>
+        <div class="flex justify-start gap-4 text-sm">
+            <div class="text-center">
+                <span class="font-bold text-lg"><?= $tweet_count ?? 0 ?></span>
+                <span class="text-gray-600 text-sm">ツイート</span>
+            </div>
+            <div class="text-center">
+                <span class="font-bold text-lg"><?= $follow_count ?? 0 ?></span>
+                <span class="text-gray-600 text-sm">フォロー中</span>
+            </div>
+            <div class="text-center">
+                <span class="font-bold text-lg"><?= $follower_count ?? 0 ?></span>
+                <span class="text-gray-600 text-sm">フォロワー</span>
+            </div>
+        </div>
+    </div>
 </div>

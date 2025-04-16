@@ -262,6 +262,26 @@ class Tweet
     }
 
     /**
+     * 投稿データのカウント
+     *
+     * @param int $user_id ユーザID
+     * @return mixed 
+     */
+    public function countByUserID($user_id)
+    {
+        try {
+            $pdo = Database::getInstance();
+            $sql = "SELECT COUNT(*) FROM tweets WHERE user_id = :user_id;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+        }
+        return;
+    }
+
+    /**
      * 画像データを取得
      * 
      * @return array|null 画像データの連想配列、もしくは該当する画像がなければ null

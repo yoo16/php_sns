@@ -20,6 +20,8 @@ if (!$user_data) {
 // ツイート情報取得
 $tweet = new Tweet();
 $tweets = $tweet->getByUserID($user_data['id']);
+
+$tweet_count = count($tweets);
 ?>
 
 <!DOCTYPE html>
