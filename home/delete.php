@@ -2,6 +2,7 @@
 // 共通ファイル app.php を読み込み
 
 use App\Models\Tweet;
+use App\Models\AuthUser;
 
 require_once('../app.php');
 

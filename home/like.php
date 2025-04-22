@@ -2,6 +2,7 @@
 require_once '../app.php';
 
 use App\Models\Like;
+use App\Models\AuthUser;
 
 // POSTリクエスト以外は処理しない
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
