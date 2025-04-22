@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ログインユーザチェック
-$auth_user = $_SESSION[APP_KEY]['auth_user'] ?? null;
+$auth_user = AuthUser::checkLogin();
 // ユーザがいなかったらログイン画面にリダイレクト
 if (empty($auth_user['id'])) {
     header('Location: ../login/');
