@@ -22,7 +22,7 @@ class AuthUser extends User
     public static function getAuthUser()
     {
         // セッションから認証ユーザ情報を取得
-        $auth_user = AuthUser::checkLogin();
+        $auth_user = $_SESSION[APP_KEY]['auth_user'] ?? null;
         // 認証ユーザ情報が存在しない場合は null を返す
         if (empty($auth_user)) {
             return null;
