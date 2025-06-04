@@ -9,7 +9,7 @@ use App\Models\User;
     </div>
     <div class="text-center">
         <?php if ($auth_user['id'] == $user_data['id']): ?>
-            <a href="user/edit.php" class="border border-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">プロフィールを編集</a>
+            <a href="user/edit/" class="border border-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">プロフィールを編集</a>
         <?php endif ?>
     </div>
 

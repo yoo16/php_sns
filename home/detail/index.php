@@ -1,5 +1,5 @@
 <?php
-require_once '../app.php';
+require_once '../../app.php';
 
 use App\Models\AuthUser;
 use App\Models\Tweet;

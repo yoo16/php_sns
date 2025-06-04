@@ -1,10 +1,9 @@
 <?php
 // 共通ファイル app.php を読み込み
+require_once('../../app.php');
 
 use App\Models\Tweet;
 use App\Models\AuthUser;
-
-require_once('../app.php');
 
 // POSTリクエスト以外は処理しない
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -33,5 +32,5 @@ $tweet = new Tweet();
 $tweet_id = $tweet->delete($posts['tweet_id']);
 
 // トップにリダイレクト
-header('Location: ./');
+header('Location: ../');
 exit;

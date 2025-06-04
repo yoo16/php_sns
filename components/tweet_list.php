@@ -1,4 +1,4 @@
-<div class="border-t border-gray-300 mt-4">
+<div class="mt-4">
     <? if ($tweets) : ?>
         <?php foreach ($tweets as $value): ?>
             <div class="row">

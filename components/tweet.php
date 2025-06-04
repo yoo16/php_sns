@@ -6,7 +6,7 @@ use App\Models\User;
         <!-- プロフィール画像 -->
         <div class="flex-shrink-0">
             <a href="user/?id=<?= $value['user_id'] ?>" class="block no-underline text-inherit">
-                <img src="<?= User::profileImage($value['profile_image']) ?>" class="rounded-full w-12 h-12">
+                <img src="<?= User::profileImage($value['profile_image']) ?>" class="rounded-full w-12 h-12 object-cover">
             </a>
         </div>
 
@@ -22,7 +22,7 @@ use App\Models\User;
             </div>
 
             <!-- ツイート本文リンク -->
-            <a href="home/detail.php?id=<?= $value['id'] ?>" class="block no-underline text-inherit">
+            <a href="home/detail/?id=<?= $value['id'] ?>" class="block no-underline text-inherit">
                 <!-- メッセージ -->
                 <div class="mt-2 mb-2 text-gray-800">
                     <?= nl2br(htmlspecialchars($value['message'])) ?>

@@ -1,5 +1,5 @@
 <?php
-require_once '../app.php';
+require_once '../../app.php';
 
 use App\Models\Like;
 use App\Models\AuthUser;
@@ -27,5 +27,4 @@ if ($tweet_id && $user_id) {
 }
 
 // 前の画面にリダイレクト
-$referer = $_SERVER['HTTP_REFERER'] ?? '/';
-header('Location: ' . htmlspecialchars($referer, ENT_QUOTES, 'UTF-8'));
+header('Location: ../');

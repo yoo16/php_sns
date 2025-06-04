@@ -1,5 +1,5 @@
 <?php
-require_once '../app.php';
+require_once '../../app.php';
 
 use App\Models\AuthUser;
 use App\Models\Tweet;
@@ -34,7 +34,7 @@ $tweets = $tweet->getImages();
                     <?php foreach ($tweets as $value): ?>
                         <?php if (File::has($value['image_path'])): ?>
                             <div class="overflow-hidden rounded shadow bg-white">
-                                <a href="home/detail.php?id=<?= $value['id'] ?>">
+                                <a href="home/detail/?id=<?= $value['id'] ?>">
                                     <img src="<?= h($value['image_path']) ?>" alt=""
                                         class="w-full h-48 object-cover hover:scale-105 transition-transform duration-200">
                                 </a>

@@ -7,11 +7,11 @@
             </div>
         </li>
         <li class="cursor-pointer">
-            <form action="home/like.php" method="post" class="inline-flex items-center space-x-2">
-                <div onclick="updateLike(this)" class="inline-flex items-center space-x-2">
-                    <img src="svg/heart.svg" class="w-4" alt="削除">
+            <form action="home/like/" method="post" class="inline-flex items-center space-x-2">
+                <button type="submit" class="inline-flex items-center space-x-2">
+                    <img src="svg/heart.svg" class="w-4" alt="いいね">
                     <span class="text-gray-600 text-xs"><?= $value['like_count'] ?></span>
-                </div>
+                </button>
                 <input type="hidden" name="tweet_id" value="<?= $value['id'] ?>">
                 <input type="hidden" name="user_id" value="<?= $auth_user['id'] ?>">
             </form>
@@ -24,7 +24,7 @@
         </li>
         <?php if ($auth_user['id'] == $value['user_id']): ?>
             <li class="cursor-pointer">
-                <form action="home/delete.php" method="post" class="inline-flex items-center space-x-2">
+                <form action="home/delete/" method="post" class="inline-flex items-center space-x-2">
                     <div onclick="deleteTweet(this)" class="inline-flex items-center space-x-2">
                         <img src="svg/trash.svg" class="w-4" alt="削除">
                     </div>

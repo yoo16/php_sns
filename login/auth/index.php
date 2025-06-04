@@ -1,6 +1,6 @@
 <?php
 // 共通ファイル app.php を読み込み
-require_once '../app.php';
+require_once '../../app.php';
 
 // Userモデルをインポート
 use App\Models\User;
@@ -23,12 +23,12 @@ $auth_user = $user->auth($account_name, $password);
 
 if (empty($auth_user['id'])) {
     // ログイン失敗時はログイン入力画面にリダイレクト
-    header('Location: input.php');
+    header('Location: ../input/');
     exit;
 } else {
     // TODO: 認証成功時はセッションにユーザデータを保存
     $_SESSION[APP_KEY]['auth_user'] = $auth_user;
     // TODO: トップページにリダイレクト
-    header('Location: ../home/');
+    header('Location: ../../home/');
     exit;
 }

@@ -1,6 +1,6 @@
 <?php
 // 共通アプリファイル読み込み
-require_once "../app.php";
+require_once "../../app.php";
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ require_once "../app.php";
     <main id="login" class="flex justify-center">
         <div class="w-1/2 mt-3 p-5 shadow-md">
             <h2 class="text-2xl mb-3 font-normal text-center">Sign in</h2>
-            <form action="login/auth.php" method="post">
+            <form action="login/auth/" method="post">
                 <div class="relative mb-4">
                     <div class="relative mb-4">
                         <input type="text" name="account_name" id="account_name" class="block

@@ -1,4 +1,4 @@
-<form action="user/update.php" method="post">
+<form action="user/update/" method="post">
     <div class="relative mb-4">
         <input type="text" name="account_name"
             id="account_name"
