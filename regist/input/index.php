@@ -1,8 +1,6 @@
 <?php
 // 共通アプリファイル読み込み
-require_once "../app.php";
-
-// var_dump(COMPONENT_DIR);
+require_once "../../app.php";
 
 // TODO: セッション APP_KEY の regist があれば取得
 $regist = [];
@@ -29,8 +27,8 @@ if (isset($_SESSION[APP_KEY]['errors'])) {
         <div class="w-1/2 mt-3 p-5 shadow-md">
             <h2 class="text-2xl mb-3 font-normal text-center">Sign Up</h2>
             <!-- Form -->
-            <!-- regist/add.php に POSTリクエスト -->
-            <form action="regist/add.php" method="post">
+            <!-- regist/add/ に POSTリクエスト -->
+            <form action="regist/add/" method="post">
                 <div class="relative mb-4">
                     <input type="text" name="account_name"
                         value="<?= $regist['account_name'] ?? '' ?>"
