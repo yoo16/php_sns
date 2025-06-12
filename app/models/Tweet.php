@@ -72,6 +72,7 @@ class Tweet
     public function getByUserID($user_id, $limit = 50)
     {
         try {
+            // DB接続
             $pdo = Database::getInstance();
             // 投稿データ取得SQL文
             // users テーブルと結合してユーザ名を取得
@@ -104,7 +105,9 @@ class Tweet
                 ORDER BY tweets.created_at DESC 
                 LIMIT :limit;";
 
+            // SQL文を準備
             $stmt = $pdo->prepare($sql);
+            // SQLの実行
             $stmt->execute(['user_id' => $user_id, 'limit' => $limit]);
             $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $tweets;

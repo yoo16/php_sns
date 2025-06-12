@@ -17,10 +17,11 @@ if (!$user_data) {
     exit;
 }
 
-// ツイート情報取得
+// 指定したユーザのツイート情報取得
 $tweet = new Tweet();
 $tweets = $tweet->getByUserID($user_data['id']);
 
+// 投稿件数をカウント
 $tweet_count = count($tweets);
 ?>
 
@@ -36,17 +37,11 @@ $tweet_count = count($tweets);
         </header>
 
         <main class="w-4/5">
+            <!-- components/dashboard.php 読み込み -->
             <?php include COMPONENT_DIR . 'dashboard.php' ?>
 
-            <div class="border-t border-gray-300 mt-4">
-                <? if ($tweets) : ?>
-                    <?php foreach ($tweets as $value): ?>
-                        <div class="row">
-                            <?php include COMPONENT_DIR . 'tweet.php' ?>
-                        </div>
-                    <?php endforeach ?>
-                <? endif ?>
-            </div>
+            <!-- components/tweet_list.php 読み込み -->
+            <?php include COMPONENT_DIR . 'tweet_list.php' ?>
         </main>
     </div>
 </body>
