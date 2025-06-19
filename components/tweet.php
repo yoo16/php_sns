@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 use App\Models\User;
 ?>
 <div class="p-4 border-b border-gray-200 hover:bg-gray-50 transition">
@@ -21,20 +22,17 @@ use App\Models\User;
                 <span class="ml-2 text-gray-500 text-sm"><?= $value['created_at'] ?></span>
             </div>
 
-            <!-- ツイート本文リンク -->
-            <a href="home/detail/?id=<?= $value['id'] ?>" class="block no-underline text-inherit">
-                <!-- メッセージ -->
-                <div class="mt-2 mb-2 text-gray-800">
-                    <?= nl2br(htmlspecialchars($value['message'])) ?>
-                </div>
+            <!-- ツイート本文 -->
+            <div class="mt-2 mb-2 text-gray-800 tweet-message" data-id="<?= $value['id'] ?>">
+                <?= nl2br(htmlspecialchars($value['message'])) ?>
+            </div>
 
-                <!-- アップロード画像 -->
-                <?php if (File::has($value['image_path'])): ?>
-                    <div class="mt-2">
-                        <img src="<?= $value['image_path'] ?>" class="rounded-lg max-w-lg max-h-96 object-cover" alt="">
-                    </div>
-                <?php endif; ?>
-            </a>
+            <!-- アップロード画像 -->
+            <?php if (File::has($value['image_path'])): ?>
+                <div class="mt-2">
+                    <img src="<?= $value['image_path'] ?>" class="rounded-lg max-w-lg max-h-96 object-cover" alt="">
+                </div>
+            <?php endif; ?>
 
             <!-- アクションツールバー（折り返し） -->
             <div class="mt-3">

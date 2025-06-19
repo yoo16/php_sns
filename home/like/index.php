@@ -11,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // ログインユーザチェック
 $auth_user = AuthUser::checkLogin();
-// ユーザがいなかったらログイン画面にリダイレクト
-if (empty($auth_user['id'])) {
-    header('Location: ../login/');
-    exit;
-}
+// ユーザがVjなかったらログイン画面にリダイレクト
+// if (empty($auth_user['id'])) {
+//     header('Location: ../login/');
+//     exit;
+// }
 
 $tweet_id = $_POST['tweet_id'] ?? null;
 $user_id = $_POST['user_id'] ?? null;
