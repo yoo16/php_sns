@@ -1,10 +1,10 @@
 <?php
 // 共通ファイル app.php を読み込み
+require_once '../../app.php';
 
 use App\Models\AuthUser;
 use App\Models\Tweet;
 
-require_once('../app.php');
 
 // TODO: ユーザセッションの確認し、ログインしていない場合はログイン画面にリダイレクト
 $auth_user = AuthUser::checkLogin();
@@ -32,10 +32,21 @@ $tweets = $tweet->search($keyword);
         </header>
 
         <main class="w-4/5 pt-3">
+            <?php include COMPONENT_DIR . 'search_form.php' ?>
+
             <div class="row">
                 <!-- TODO: components/tweet_form.php 読み込み -->
                 <?php include COMPONENT_DIR . 'tweet_form.php' ?>
             </div>
+
+            <?php if ($tweets !== null): ?>
+                <p class="px-4 py-2 font-bold">
+                    検索キーワード: <span class=""><?= h($keyword) ?></span><br>
+                </p>
+                <p class="px-4 py-2 font-bold">
+                    <?= count($tweets) ?> 件の投稿が検索されました
+                </p>
+            <?php endif; ?>
 
             <? if ($tweets) : ?>
                 <?php foreach ($tweets as $value): ?>

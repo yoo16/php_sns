@@ -5,6 +5,7 @@ CREATE TABLE users (
     display_name varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     profile text DEFAULT NULL,
+    profile_image text DEFAULT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
