@@ -16,7 +16,4 @@ const APP_KEY = "php_sns";
 // サイトタイトル
 const SITE_TITLE = "PHP SNS";
 
-// サイトベースURL
-define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'));
-// 手動で設定する場合
 // const BASE_URL = "http://localhost/php_sns/";

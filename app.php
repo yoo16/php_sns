@@ -31,17 +31,16 @@ require_once LIB_DIR . 'File.php';
 
 // モデルクラスの読み込み
 require_once APP_DIR . 'models/User.php';
-require_once APP_DIR . 'models/AuthUser.php';
-require_once APP_DIR . 'models/Tweet.php';
-require_once APP_DIR . 'models/Like.php';
+require_once APP_DIR . 'models/Product.php';
 
 if (!defined('BASE_URL')) define('BASE_URL', getBaseUrl());
 
+
+// BASE_URL を定義（常にルートからの相対パス）
 function getBaseUrl()
 {
     $documentRoot = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
     $directory = str_replace('\\', '/', __DIR__);
     $basePath = str_replace($documentRoot, '', $directory);
-    // BASE_URL を定義（常にルートからの相対パス）
     return rtrim($basePath, '/') . '/';
 }
